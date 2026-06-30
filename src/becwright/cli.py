@@ -17,7 +17,7 @@ BOLD = "\033[1m"; DIM = "\033[2m"; RESET = "\033[0m"
 
 
 def _colors_enabled() -> bool:
-    return "NO_COLOR" not in os.environ and sys.stdout.isatty()
+    return not os.environ.get("NO_COLOR") and sys.stdout.isatty()
 
 
 def _style(text: str, *codes: str) -> str:
@@ -215,7 +215,7 @@ def _cmd_init(args: argparse.Namespace) -> int:
     root = git.repo_root()
     rules_path = root / ".bec" / "rules.yaml"
     if rules_path.exists() and not args.force:
-        print(f"{YELLOW}{rules_path} already exists. Use --force to overwrite.{RESET}")
+        print(_style(f"{rules_path} already exists. Use --force to overwrite.", YELLOW))
         return 1
     langs = _detect_languages(root)
     rules = _starter_rules(langs)
