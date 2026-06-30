@@ -5,8 +5,7 @@ name: Build binaries
 # install becwright via npm/pnpm. Release publishing is wired in publish.yml.
 on:
   workflow_dispatch:
-  push:
-    tags: ["v*"]
+  workflow_call: # invoked by release.yml on a published release
 
 jobs:
   build:

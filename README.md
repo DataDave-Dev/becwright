@@ -50,7 +50,10 @@ becwright is installed once as a tool; each repo only contributes its own
 `.bec/rules.yaml`.
 
 ```bash
-# 1. Install the engine (once, global)
+# 1. Install the engine. Pick your ecosystem — no Python needed via npm/pnpm,
+#    which ship a self-contained binary:
+npm install --save-dev becwright    # or global: npm install -g becwright
+pnpm add -D becwright
 pipx install becwright              # or: pip install becwright
 
 # 2. In your repo, scaffold rules + install the hook
@@ -58,6 +61,11 @@ becwright init                      # detects your language, writes .bec/rules.y
 
 # 3. Done: each commit runs the checks; if a blocking rule fails, it stops.
 ```
+
+Installed as a devDependency, the pre-commit hook resolves the local binary from
+`node_modules/.bin`, so it works without a global install. The npm packages cover
+`linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64` and `win32-x64`; on any
+other platform use `pipx install becwright`.
 
 Available commands:
 
