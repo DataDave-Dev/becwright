@@ -83,7 +83,7 @@ rules:
       Si un token aparece en los logs, cualquiera con acceso a ellos puede
       robar la sesión de un usuario.
     paths: ["src/**/*.py"]
-    check: "python3 -m becwright.checks.no_token_in_logs"
+    check: "becwright run no_token_in_logs"
     severity: blocking   # blocking = frena el commit | warning = solo avisa
 ```
 
@@ -120,7 +120,7 @@ rules:
     why_it_matters: >
       Un 'debugger' olvidado detiene la ejecución y no debería llegar a producción.
     paths: ["**/*.js", "**/*.ts"]
-    check: "python3 -m becwright.checks.forbid --pattern '\\bdebugger\\b'"
+    check: "becwright run forbid --pattern '\\bdebugger\\b'"
     severity: blocking
 ```
 
@@ -151,7 +151,7 @@ commit. Usá `--yes` para saltar la confirmación en entornos automatizados.
 Hay un **catálogo de BECs listas para usar** en [`becs/`](becs/) que podés
 importar directo desde su URL cruda.
 
-Los checks built-in (`python3 -m becwright.checks.*`) viajan con el paquete, así
+Los checks built-in (`becwright run *`) viajan con el paquete, así
 que el bundle solo guarda su nombre. Un check **custom** (`.bec/checks/foo.py`)
 viaja con su código embebido y aterriza en `.bec/checks/` del repo destino.
 
