@@ -142,7 +142,7 @@ install`.
 ```yaml
 repos:
   - repo: https://github.com/DataDave-Dev/becwright
-    rev: v0.2.2
+    rev: v0.3.0
     hooks:
       - id: becwright
 ```
