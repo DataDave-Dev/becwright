@@ -125,10 +125,37 @@ Available commands:
 | `becwright init` | Scaffold a starter `.bec/rules.yaml` and install the hook |
 | `becwright list` | List the built-in checks |
 | `becwright check` | Runs the rules over the staged files |
+| `becwright search [query]` | Lists ready-made BECs from the built-in catalog |
+| `becwright add <name>` | Installs a catalog BEC into `.bec/rules.yaml` (offline) |
 | `becwright install` | Installs the native `pre-commit` hook |
 | `becwright uninstall` | Removes the hook |
 | `becwright export <id>` | Exports a BEC to a `.bec.yaml` file |
 | `becwright import <file\|URL>` | Imports a BEC from another repo |
+
+### Already using pre-commit or Husky?
+
+If your repo already manages git hooks, becwright plugs in without `becwright
+install`.
+
+**[pre-commit](https://pre-commit.com)** — add this to `.pre-commit-config.yaml`:
+
+```yaml
+repos:
+  - repo: https://github.com/DataDave-Dev/becwright
+    rev: v0.2.2
+    hooks:
+      - id: becwright
+```
+
+**Husky** (JS/TS repos) — in `.husky/pre-commit`:
+
+```sh
+npx becwright check
+```
+
+Either way becwright still reads `.bec/rules.yaml` and blocks the commit on a
+broken blocking rule. You only need `becwright init` once to scaffold the rules
+(skip its hook install if another tool owns the hook).
 
 ### Use with AI agents (Claude Code)
 

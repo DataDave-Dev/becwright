@@ -132,10 +132,37 @@ Comandos disponibles:
 | `becwright init` | Genera un `.bec/rules.yaml` de arranque e instala el hook |
 | `becwright list` | Lista los checks incluidos |
 | `becwright check` | Corre las reglas sobre los archivos en staging |
+| `becwright search [texto]` | Lista BECs listas del catálogo incluido |
+| `becwright add <nombre>` | Instala una BEC del catálogo en `.bec/rules.yaml` (sin conexión) |
 | `becwright install` | Instala el hook `pre-commit` nativo |
 | `becwright uninstall` | Quita el hook |
 | `becwright export <id>` | Exporta una BEC a un archivo `.bec.yaml` |
 | `becwright import <archivo\|URL>` | Importa una BEC de otro repo |
+
+### ¿Ya usás pre-commit o Husky?
+
+Si tu repo ya administra los git hooks, becwright se enchufa sin `becwright
+install`.
+
+**[pre-commit](https://pre-commit.com)** — agregá esto a `.pre-commit-config.yaml`:
+
+```yaml
+repos:
+  - repo: https://github.com/DataDave-Dev/becwright
+    rev: v0.2.2
+    hooks:
+      - id: becwright
+```
+
+**Husky** (repos JS/TS) — en `.husky/pre-commit`:
+
+```sh
+npx becwright check
+```
+
+En ambos casos becwright igual lee `.bec/rules.yaml` y frena el commit ante una
+regla bloqueante rota. Solo necesitás `becwright init` una vez para generar las
+reglas (salteá su instalación del hook si otra herramienta lo administra).
 
 ### Uso con agentes de IA (Claude Code)
 
