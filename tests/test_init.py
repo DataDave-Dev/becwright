@@ -129,6 +129,14 @@ def test_render_empty_is_valid(tmp_path):
     assert load_rules(p) == []
 
 
+def test_render_yaml_emits_exclude(tmp_path):
+    rules = [{"id": "no-log", "intent": "x", "why": "y", "paths": ["**/*.ts"],
+              "exclude": ["lib/logger.ts"], "check": "true", "severity": "warning"}]
+    p = tmp_path / "rules.yaml"
+    p.write_text(cli._render_rules_yaml(rules), encoding="utf-8")
+    assert load_rules(p)[0].exclude == ("lib/logger.ts",)
+
+
 # --- the init command ---
 
 def test_init_creates_rules_and_hook(tmp_path, monkeypatch):

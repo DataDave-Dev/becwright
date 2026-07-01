@@ -238,11 +238,16 @@ def _render_rules_yaml(rules: list[dict]) -> str:
     blocks = []
     for r in rules:
         paths = "\n".join(f'      - "{p}"' for p in r["paths"])
+        exclude = ""
+        if r.get("exclude"):
+            lines = "\n".join(f'      - "{p}"' for p in r["exclude"])
+            exclude = f"    exclude:\n{lines}\n"
         blocks.append(
             f"  - id: {r['id']}\n"
             f"    intent: >\n      {r['intent']}\n"
             f"    why_it_matters: >\n      {r['why']}\n"
             f"    paths:\n{paths}\n"
+            f"{exclude}"
             f"    check: {r['check']}\n"
             f"    severity: {r['severity']}\n"
         )
