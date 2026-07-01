@@ -10,8 +10,11 @@
 [![npm](https://img.shields.io/npm/v/becwright?logo=npm)](https://www.npmjs.com/package/becwright)
 [![PyPI](https://img.shields.io/pypi/v/becwright?logo=pypi&logoColor=white)](https://pypi.org/project/becwright/)
 
-**Reglas que se ejecutan, no notas que se ignoran.**
-Tu `CLAUDE.md` es un *cartel*. becwright es el *guardia*.
+**La capa de enforcement para agentes de IA.**
+
+Reglas que se ejecutan, no notas que se ignoran. Tu `CLAUDE.md` es un *cartel*;
+becwright es el *guardia* — corre tus reglas sobre el código y frena el commit
+cuando una se rompe, sin importar qué modelo (o persona) lo escribió.
 
 <sub>Determinista, no probabilístico · cualquier lenguaje · sin Python · frena el commit **y** lleva el *por qué*.</sub>
 

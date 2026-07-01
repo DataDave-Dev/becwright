@@ -10,8 +10,11 @@
 [![npm](https://img.shields.io/npm/v/becwright?logo=npm)](https://www.npmjs.com/package/becwright)
 [![PyPI](https://img.shields.io/pypi/v/becwright?logo=pypi&logoColor=white)](https://pypi.org/project/becwright/)
 
-**Rules that run, not notes that get ignored.**
-Your `CLAUDE.md` is a *sign*. becwright is the *guard*.
+**The enforcement layer for AI coding agents.**
+
+Rules that run, not notes that get ignored. Your `CLAUDE.md` is a *sign*;
+becwright is the *guard* — it runs your rules against the code and blocks the
+commit when one breaks, no matter which model (or person) wrote it.
 
 <sub>Deterministic, not probabilistic · any language · no Python required · blocks the commit **and** carries the *why*.</sub>
 
