@@ -300,6 +300,13 @@ reason behind it), so it steers clear of a broken commit instead of discovering
 the rule only when the commit is blocked. The `.bec/rules.yaml` catalog becomes
 the repo's queryable decision memory.
 
+Either way the signal stays lean. A blocked commit returns the one rule that
+broke, its *why*, and the exact lines — the agent fixes precisely that instead of
+re-reading the whole style guide into context. The usual advice is "give the
+model more context"; becwright inverts it — you hand it the specific constraint it
+broke, checked deterministically, not the entire rulebook. Fewer tokens, tighter
+loop, and the guarantee doesn't depend on the model having read anything at all.
+
 A rule in `.bec/rules.yaml`:
 
 ```yaml

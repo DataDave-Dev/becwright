@@ -308,6 +308,14 @@ regla y su razón), así las esquiva en vez de descubrir la regla recién cuando
 commit se bloquea. El catálogo `.bec/rules.yaml` se vuelve la memoria de
 decisiones consultable del repo.
 
+En ambos casos la señal se mantiene magra. Un commit bloqueado devuelve la única
+regla que se rompió, su *por qué* y las líneas exactas — el agente arregla justo
+eso en vez de releer la guía de estilo entera en el contexto. El consejo de
+siempre es "dale más contexto al modelo"; becwright lo da vuelta — le pasás la
+constraint puntual que rompió, verificada de forma determinista, no el reglamento
+completo. Menos tokens, loop más ajustado, y la garantía no depende de que el
+modelo haya leído nada.
+
 Una regla en `.bec/rules.yaml`:
 
 ```yaml
