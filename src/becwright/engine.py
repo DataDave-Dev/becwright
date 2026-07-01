@@ -4,6 +4,7 @@ import os
 import re
 import subprocess
 from dataclasses import dataclass
+from functools import lru_cache
 from pathlib import Path
 
 from .rules import Rule
@@ -48,8 +49,15 @@ def _glob_to_regex(pattern: str) -> str:
     return "^" + "".join(out) + "$"
 
 
+@lru_cache(maxsize=None)
+def _compiled_glob(pattern: str) -> re.Pattern[str]:
+    return re.compile(_glob_to_regex(pattern))
+
+
 def matches(path: str, patterns: tuple[str, ...]) -> bool:
-    return any(re.match(_glob_to_regex(p), path) for p in patterns)
+    # `check --all` runs this for every (file, pattern) pair; caching the
+    # compiled regex avoids rebuilding it on each call.
+    return any(_compiled_glob(p).match(path) for p in patterns)
 
 
 @dataclass(frozen=True)
