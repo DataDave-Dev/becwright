@@ -76,7 +76,7 @@ def _print_unknown_checks(unknown: list[tuple[str, str]]) -> None:
 
 def _cmd_check(args: argparse.Namespace) -> int:
     root = git.repo_root()
-    rules, files, result = report.gather(root, all_files=args.all)
+    rules, files, result = report.gather(root, all_files=args.all, diff_base=args.diff)
 
     unknown = _unknown_builtin_checks(rules, root)
     if unknown:
@@ -784,7 +784,10 @@ def _build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
 
     p_check = sub.add_parser("check", help="check the code against the rules")
-    p_check.add_argument("--all", action="store_true", help="check the whole repo, not just staging")
+    scope = p_check.add_mutually_exclusive_group()
+    scope.add_argument("--all", action="store_true", help="check the whole repo, not just staging")
+    scope.add_argument("--diff", metavar="BASE",
+                       help="check only files changed vs BASE ref (e.g. origin/main) — for CI/PR")
     p_check.add_argument("--json", action="store_true", help="output results as JSON")
     p_check.set_defaults(func=_cmd_check)
 
@@ -836,7 +839,7 @@ def main(argv: list[str] | None = None) -> int:
     args = _build_parser().parse_args(argv)
     try:
         return args.func(args)
-    except (git.NotAGitRepo, RulesError) as e:
+    except (git.NotAGitRepo, git.GitError, RulesError) as e:
         print(_style(str(e), RED), file=sys.stderr)
         return 2
 

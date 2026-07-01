@@ -346,6 +346,80 @@ def test_demo_result_flags_both_violations(tmp_path):
     assert res.had_blocking
 
 
+# --- diff mode (CI / PR): only the files a branch changed ---
+
+def _current_branch(root):
+    return subprocess.run(
+        ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+        cwd=root, capture_output=True, text=True,
+    ).stdout.strip()
+
+
+def _branch_with_change(tmp_path):
+    """Base commit with old.py, then a `feature` branch adding new.py. Returns the
+    base branch name to diff against."""
+    _init_repo(tmp_path)
+    (tmp_path / "old.py").write_text("x = 1\n", encoding="utf-8")
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-m", "base")
+    base = _current_branch(tmp_path)
+    _git(tmp_path, "checkout", "-b", "feature")
+    return base
+
+
+def test_files_to_check_diff_base_returns_only_changed(tmp_path):
+    base = _branch_with_change(tmp_path)
+    (tmp_path / "new.py").write_text("y = 2\n", encoding="utf-8")
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-m", "feature")
+    assert git.files_to_check(tmp_path, diff_base=base) == ["new.py"]
+
+
+def test_files_to_check_diff_base_unknown_ref_raises(tmp_path):
+    _init_repo(tmp_path)
+    (tmp_path / "a.py").write_text("x = 1\n", encoding="utf-8")
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-m", "c")
+    with pytest.raises(git.GitError):
+        git.files_to_check(tmp_path, diff_base="origin/does-not-exist")
+
+
+def test_check_diff_blocks_on_changed_file(tmp_path, monkeypatch, capsys):
+    base = _branch_with_change(tmp_path)
+    (tmp_path / ".bec").mkdir()
+    (tmp_path / ".bec" / "rules.yaml").write_text(_rules_yaml("debug_remnants"), encoding="utf-8")
+    (tmp_path / "bad.py").write_text("breakpoint()\n", encoding="utf-8")
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-m", "feature")
+    monkeypatch.chdir(tmp_path)
+    assert cli.main(["check", "--diff", base]) == 1
+    assert "Commit BLOCKED" in capsys.readouterr().out
+
+
+def test_check_diff_ignores_violation_outside_the_diff(tmp_path, monkeypatch, capsys):
+    # A pre-existing violation on the base must not fail CI: --diff only checks what
+    # the branch actually changed, so a clean change passes regardless of old debt.
+    _init_repo(tmp_path)
+    (tmp_path / ".bec").mkdir()
+    (tmp_path / ".bec" / "rules.yaml").write_text(_rules_yaml("debug_remnants"), encoding="utf-8")
+    (tmp_path / "legacy.py").write_text("breakpoint()\n", encoding="utf-8")
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-m", "base")
+    base = _current_branch(tmp_path)
+    _git(tmp_path, "checkout", "-b", "feature")
+    (tmp_path / "feature.py").write_text("z = 3\n", encoding="utf-8")
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-m", "feature")
+    monkeypatch.chdir(tmp_path)
+    assert cli.main(["check", "--diff", base]) == 0
+    assert "All good" in capsys.readouterr().out
+
+
+def test_check_all_and_diff_are_mutually_exclusive():
+    with pytest.raises(SystemExit):
+        cli.main(["check", "--all", "--diff", "main"])
+
+
 # --- the mcp subcommand ---
 
 def test_mcp_subcommand_without_extra(monkeypatch):
