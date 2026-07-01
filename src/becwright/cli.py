@@ -10,7 +10,7 @@ from pathlib import Path
 
 from . import __version__, bundle, git, report
 from .engine import Result
-from .rules import load_rules
+from .rules import RulesError, load_rules
 
 RED = "\033[91m"; GREEN = "\033[92m"; YELLOW = "\033[93m"
 BOLD = "\033[1m"; DIM = "\033[2m"; RESET = "\033[0m"
@@ -456,7 +456,7 @@ def main(argv: list[str] | None = None) -> int:
     args = _build_parser().parse_args(argv)
     try:
         return args.func(args)
-    except git.NotAGitRepo as e:
+    except (git.NotAGitRepo, RulesError) as e:
         print(_style(str(e), RED), file=sys.stderr)
         return 2
 
