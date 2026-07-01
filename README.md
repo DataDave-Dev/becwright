@@ -226,24 +226,21 @@ rules:
 
 ## Ready-made rules (no writing required)
 
-Don't want to write rules yourself? Import one from the [catalog](becs/) with a
-single command — becwright shows you the rule, then drops it into your
-`.bec/rules.yaml`, ready to go:
+Don't want to write rules yourself? The catalog ships **inside** becwright, so
+you can install a rule with one command — no URL, works offline. becwright shows
+you the rule, then drops it into your `.bec/rules.yaml`, ready to go:
 
 ```bash
-# Python
-becwright import https://raw.githubusercontent.com/DataDave-Dev/becwright/main/becs/no-token-in-logs.bec.yaml
-becwright import https://raw.githubusercontent.com/DataDave-Dev/becwright/main/becs/no-debug-remnants.bec.yaml
+becwright search                 # list every BEC in the catalog
+becwright search secret          # filter by a word
 
-# JavaScript / TypeScript
-becwright import https://raw.githubusercontent.com/DataDave-Dev/becwright/main/becs/no-debugger-js.bec.yaml
-becwright import https://raw.githubusercontent.com/DataDave-Dev/becwright/main/becs/no-console-log-js.bec.yaml
-
-# Any language
-becwright import https://raw.githubusercontent.com/DataDave-Dev/becwright/main/becs/no-hardcoded-secrets.bec.yaml
+becwright add no-token-in-logs   # install one (Python)
+becwright add no-debugger-js     # JavaScript / TypeScript
+becwright add no-hardcoded-secrets   # any language
 ```
 
-The full list (Python, JS/TS, Go, Rust) lives in [`becs/`](becs/).
+The full list (Python, JS/TS, Go, Rust) lives in
+[`src/becwright/becs/`](src/becwright/becs/).
 
 ## Any language
 
@@ -292,8 +289,9 @@ On import, becwright **shows the check's code and asks for confirmation** before
 installing it: importing a BEC is importing code that will run on every commit.
 Use `--yes` to skip the confirmation in automated environments.
 
-There is a **catalog of ready-to-use BECs** in [`becs/`](becs/) that you can
-import directly from their raw URL.
+There is a **catalog of ready-to-use BECs** shipped inside becwright: run
+`becwright search` to list them and `becwright add <name>` to install one (they
+also live in [`src/becwright/becs/`](src/becwright/becs/) for browsing).
 
 Built-in checks (`becwright run *`) travel with the package, so
 the bundle only stores their name. A **custom** check (`.bec/checks/foo.py`)

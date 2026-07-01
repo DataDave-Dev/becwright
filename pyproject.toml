@@ -51,6 +51,10 @@ mcp = ["mcp>=1.2"]
 [tool.setuptools.packages.find]
 where = ["src"]
 
+# Ship the BEC catalog inside the wheel so `becwright add` works offline.
+[tool.setuptools.package-data]
+becwright = ["becs/*.bec.yaml"]
+
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]

@@ -191,24 +191,22 @@ atar cada regla a su *por qué*.
 
 ## Reglas listas para usar (sin escribir nada)
 
-¿No querés escribir reglas vos mismo? Importá una del [catálogo](becs/) con un
-solo comando — becwright te muestra la regla y después la deja en tu
-`.bec/rules.yaml`, lista para usar:
+¿No querés escribir reglas vos mismo? El catálogo viaja **dentro** de becwright,
+así que instalás una regla con un solo comando — sin URL y sin conexión.
+becwright te muestra la regla y después la deja en tu `.bec/rules.yaml`, lista
+para usar:
 
 ```bash
-# Python
-becwright import https://raw.githubusercontent.com/DataDave-Dev/becwright/main/becs/no-token-in-logs.bec.yaml
-becwright import https://raw.githubusercontent.com/DataDave-Dev/becwright/main/becs/no-debug-remnants.bec.yaml
+becwright search                 # lista todas las BECs del catálogo
+becwright search secret          # filtrá por una palabra
 
-# JavaScript / TypeScript
-becwright import https://raw.githubusercontent.com/DataDave-Dev/becwright/main/becs/no-debugger-js.bec.yaml
-becwright import https://raw.githubusercontent.com/DataDave-Dev/becwright/main/becs/no-console-log-js.bec.yaml
-
-# Cualquier lenguaje
-becwright import https://raw.githubusercontent.com/DataDave-Dev/becwright/main/becs/no-hardcoded-secrets.bec.yaml
+becwright add no-token-in-logs   # instalá una (Python)
+becwright add no-debugger-js     # JavaScript / TypeScript
+becwright add no-hardcoded-secrets   # cualquier lenguaje
 ```
 
-La lista completa (Python, JS/TS, Go, Rust) vive en [`becs/`](becs/).
+La lista completa (Python, JS/TS, Go, Rust) vive en
+[`src/becwright/becs/`](src/becwright/becs/).
 
 ## Cualquier lenguaje
 
@@ -257,8 +255,9 @@ Al importar, becwright **muestra el código del check y pide confirmación** ant
 de instalarlo: importar una BEC es importar código que se ejecutará en cada
 commit. Usá `--yes` para saltar la confirmación en entornos automatizados.
 
-Hay un **catálogo de BECs listas para usar** en [`becs/`](becs/) que podés
-importar directo desde su URL cruda.
+Hay un **catálogo de BECs listas para usar** dentro de becwright: corré
+`becwright search` para listarlas y `becwright add <nombre>` para instalar una
+(también viven en [`src/becwright/becs/`](src/becwright/becs/) para navegarlas).
 
 Los checks built-in (`becwright run *`) viajan con el paquete, así
 que el bundle solo guarda su nombre. Un check **custom** (`.bec/checks/foo.py`)
