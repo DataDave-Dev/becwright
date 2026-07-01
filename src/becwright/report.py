@@ -25,6 +25,24 @@ def gather(
         return rules, files, evaluate(rules, files, staged_root)
 
 
+def rule_record(rule: Rule) -> dict:
+    """A rule's *Bound* half — its intent, reason and the decision behind it — as a
+    serializable record. Shared by `becwright why --json` and any agent that wants
+    the decisions it must not violate *before* writing code, not only when a commit
+    fails."""
+    return {
+        "id": rule.id,
+        "severity": rule.severity,
+        "target": rule.target,
+        "intent": rule.intent or None,
+        "why_it_matters": rule.why_it_matters or None,
+        "rejected_alternatives": list(rule.rejected_alternatives),
+        "paths": list(rule.paths),
+        "exclude": list(rule.exclude),
+        "check": rule.check,
+    }
+
+
 def payload(rules: list[Rule], files: list[str], result: Result | None) -> dict:
     """Build a JSON-serializable summary shared by `check --json` and the MCP server."""
     results = []

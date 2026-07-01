@@ -420,6 +420,98 @@ def test_check_all_and_diff_are_mutually_exclusive():
         cli.main(["check", "--all", "--diff", "main"])
 
 
+# --- the why subcommand (decision memory) ---
+
+_WHY_RULES = """\
+rules:
+  - id: no-eval
+    intent: "Avoid eval and exec."
+    why_it_matters: "Arbitrary code execution is a security hole."
+    rejected_alternatives:
+      - "sandboxing eval"
+    paths: ["**/*.py"]
+    exclude: ["tests/**"]
+    check: "becwright run dangerous_eval"
+    severity: blocking
+  - id: conv
+    target: commit-msg
+    intent: "Use Conventional Commits."
+    check: 'becwright run require --pattern "^feat: "'
+    severity: warning
+"""
+
+
+def _write_why_rules(tmp_path):
+    (tmp_path / ".bec").mkdir()
+    (tmp_path / ".bec" / "rules.yaml").write_text(_WHY_RULES, encoding="utf-8")
+
+
+def test_why_lists_all_rules(tmp_path, monkeypatch, capsys):
+    _init_repo(tmp_path)
+    _write_why_rules(tmp_path)
+    monkeypatch.chdir(tmp_path)
+    assert cli.main(["why"]) == 0
+    out = capsys.readouterr().out
+    assert "no-eval" in out and "conv" in out
+    assert "Avoid eval and exec." in out
+
+
+def test_why_detail_shows_full_record(tmp_path, monkeypatch, capsys):
+    _init_repo(tmp_path)
+    _write_why_rules(tmp_path)
+    monkeypatch.chdir(tmp_path)
+    assert cli.main(["why", "no-eval"]) == 0
+    out = capsys.readouterr().out
+    assert "Intent:" in out and "Why it matters:" in out
+    assert "Rejected alternatives:" in out and "sandboxing eval" in out
+    assert "dangerous_eval" in out and "tests/**" in out
+
+
+def test_why_commit_msg_rule_applies_to_message(tmp_path, monkeypatch, capsys):
+    _init_repo(tmp_path)
+    _write_why_rules(tmp_path)
+    monkeypatch.chdir(tmp_path)
+    assert cli.main(["why", "conv"]) == 0
+    assert "the commit message" in capsys.readouterr().out
+
+
+def test_why_unknown_id_returns_1_and_lists_ids(tmp_path, monkeypatch, capsys):
+    _init_repo(tmp_path)
+    _write_why_rules(tmp_path)
+    monkeypatch.chdir(tmp_path)
+    assert cli.main(["why", "ghost"]) == 1
+    err = capsys.readouterr().err
+    assert "ghost" in err and "no-eval" in err
+
+
+def test_why_json_lists_all(tmp_path, monkeypatch, capsys):
+    import json
+    _init_repo(tmp_path)
+    _write_why_rules(tmp_path)
+    monkeypatch.chdir(tmp_path)
+    assert cli.main(["why", "--json"]) == 0
+    data = json.loads(capsys.readouterr().out)
+    assert [r["id"] for r in data["rules"]] == ["no-eval", "conv"]
+    assert data["rules"][0]["why_it_matters"].startswith("Arbitrary code execution")
+
+
+def test_why_json_single_rule(tmp_path, monkeypatch, capsys):
+    import json
+    _init_repo(tmp_path)
+    _write_why_rules(tmp_path)
+    monkeypatch.chdir(tmp_path)
+    assert cli.main(["why", "no-eval", "--json"]) == 0
+    rec = json.loads(capsys.readouterr().out)
+    assert rec["id"] == "no-eval" and rec["rejected_alternatives"] == ["sandboxing eval"]
+
+
+def test_why_no_rules_is_friendly(tmp_path, monkeypatch, capsys):
+    _init_repo(tmp_path)
+    monkeypatch.chdir(tmp_path)
+    assert cli.main(["why"]) == 0
+    assert "No .bec/rules.yaml" in capsys.readouterr().out
+
+
 # --- the mcp subcommand ---
 
 def test_mcp_subcommand_without_extra(monkeypatch):

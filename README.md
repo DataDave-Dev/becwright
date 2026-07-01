@@ -194,6 +194,7 @@ Available commands:
 | `becwright list` | List the built-in checks |
 | `becwright check` | Runs the rules over the staged files |
 | `becwright check --diff <base>` | Runs the rules over only the files changed vs `<base>` (for CI/PR) |
+| `becwright why [id]` | Shows the intent + why behind the rules — the repo's decision memory (`--json` for agents) |
 | `becwright search [query]` | Lists ready-made BECs from the built-in catalog |
 | `becwright add <name>` | Installs a catalog BEC into `.bec/rules.yaml` (offline) |
 | `becwright install` | Installs the native `pre-commit` hook |
@@ -287,8 +288,14 @@ It adds a `becwright` skill and a `/becwright` command. See
 For structured results, `becwright check --json` prints a machine-readable
 summary, and `becwright mcp` (install the `mcp` extra: `pipx install
 "becwright[mcp]"`) runs an MCP server — MCP is a standard way for AI tools to
-plug in extra abilities — exposing `check` and `list_checks` to any agent. See
-[`documentation/mcp.md`](documentation/mcp.md).
+plug in extra abilities — exposing `check`, `list_checks` and `list_rules` to any
+agent. See [`documentation/mcp.md`](documentation/mcp.md).
+
+Better yet, an agent can read the rules *before* it writes code: `becwright why
+--json` hands it the decisions it must not violate (each rule's intent and the
+reason behind it), so it steers clear of a broken commit instead of discovering
+the rule only when the commit is blocked. The `.bec/rules.yaml` catalog becomes
+the repo's queryable decision memory.
 
 A rule in `.bec/rules.yaml`:
 
