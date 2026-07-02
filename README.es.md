@@ -32,7 +32,7 @@ Se publica.
 Con becwright, el commit no llega a existir:
 
 <p align="center">
-  <img src="assets/becwright-demo.svg" alt="becwright frenando un commit que hardcodea un secreto y usa eval" width="640">
+  <img src="assets/becwright-demo-animated.svg" alt="becwright frenando un commit en vivo: corre git commit, dos reglas blocking se disparan con su porqué, el commit se detiene" width="640">
 </p>
 
 > **Velo vos mismo en 5 segundos** — sin configurar nada, sin git, sin tocar tu

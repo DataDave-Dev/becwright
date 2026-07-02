@@ -31,7 +31,7 @@ string — and leaves a note to *"clean this up later."* Nobody does. It ships.
 With becwright, the commit never happens:
 
 <p align="center">
-  <img src="assets/becwright-demo.svg" alt="becwright blocking a commit that hardcodes a secret and calls eval" width="640">
+  <img src="assets/becwright-demo-animated.svg" alt="becwright blocking a commit live: git commit runs, two blocking rules fire with their why, the commit is stopped" width="640">
 </p>
 
 > **See it yourself in 5 seconds** — no setup, no git, nothing on your machine is
