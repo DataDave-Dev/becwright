@@ -513,7 +513,7 @@ de arriba no va a necesitar un cambio que rompa compatibilidad:
       y `.bec/rules.yaml` (`schema_version`).
 - [ ] Congelar el conjunto de campos de `rules.yaml` — sin cambios de esquema
       pendientes.
-- [ ] Documentar y estabilizar los códigos de salida de la CLI y la forma de
+- [x] Documentar y estabilizar los códigos de salida de la CLI y la forma de
       `check --json`.
 - [ ] Definir una política de deprecación: una release menor de aviso antes de
       quitar cualquier cosa.

@@ -19,6 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   becwright" error — instead of risking a silent misparse. (The `.bec.yaml`
   export bundle was already versioned via `becwright_bec`.)
 
+### Documentation
+- Documented becwright's **stable contract** in `documentation/usage.md`: the CLI
+  exit codes (`0` pass · `1` a blocking rule failed · `2` config/usage problem)
+  and the `check --json` output shape, both now locked by tests so a change is a
+  deliberate break rather than a silent drift.
+
 ## [0.4.0] — 2026-07-01
 
 ### Added

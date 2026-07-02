@@ -541,7 +541,7 @@ need a breaking change:
       misparsing — the `.bec.yaml` bundle (`becwright_bec`) and `.bec/rules.yaml`
       (`schema_version`).
 - [ ] Freeze the `rules.yaml` field set — no pending schema changes.
-- [ ] Document and stabilize CLI exit codes and the `check --json` shape.
+- [x] Document and stabilize CLI exit codes and the `check --json` shape.
 - [ ] State a deprecation policy: one minor release of notice before any removal.
 - [ ] Validate on real repositories beyond this one.
 
