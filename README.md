@@ -8,9 +8,12 @@
 
 [![CI](https://github.com/DataDave-Dev/becwright/actions/workflows/ci.yml/badge.svg)](https://github.com/DataDave-Dev/becwright/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/becwright?logo=npm)](https://www.npmjs.com/package/becwright)
+[![npm downloads](https://img.shields.io/npm/dm/becwright?logo=npm&label=downloads)](https://www.npmjs.com/package/becwright)
 [![PyPI](https://img.shields.io/pypi/v/becwright?logo=pypi&logoColor=white)](https://pypi.org/project/becwright/)
+[![Python versions](https://img.shields.io/pypi/pyversions/becwright?logo=python&logoColor=white)](https://pypi.org/project/becwright/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-**The enforcement layer for AI coding agents.**
+**The enforcement layer for AI coding agents.** <sub>(*bec-wright* — a "wright" is a maker, as in *playwright*)</sub>
 
 Rules that run, not notes that get ignored. Your `CLAUDE.md` is a *sign*;
 becwright is the *guard* — it runs your rules against the code and blocks the

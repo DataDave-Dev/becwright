@@ -8,9 +8,12 @@
 
 [![CI](https://github.com/DataDave-Dev/becwright/actions/workflows/ci.yml/badge.svg)](https://github.com/DataDave-Dev/becwright/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/becwright?logo=npm)](https://www.npmjs.com/package/becwright)
+[![npm downloads](https://img.shields.io/npm/dm/becwright?logo=npm&label=descargas)](https://www.npmjs.com/package/becwright)
 [![PyPI](https://img.shields.io/pypi/v/becwright?logo=pypi&logoColor=white)](https://pypi.org/project/becwright/)
+[![Versiones de Python](https://img.shields.io/pypi/pyversions/becwright?logo=python&logoColor=white)](https://pypi.org/project/becwright/)
+[![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-green)](LICENSE)
 
-**La capa de enforcement para agentes de IA.**
+**La capa de enforcement para agentes de IA.** <sub>(se pronuncia *bec-ráit* — un "wright" es un artesano, como en *playwright*)</sub>
 
 Reglas que se ejecutan, no notas que se ignoran. Tu `CLAUDE.md` es un *cartel*;
 becwright es el *guardia* — corre tus reglas sobre el código y frena el commit
