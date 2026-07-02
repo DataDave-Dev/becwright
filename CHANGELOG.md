@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   contract covers (`rules.yaml` schema, `.bec.yaml` bundle format, check names,
   CLI commands and exit codes, `check --json` shape, MCP signatures) and the
   exit criteria to reach it.
+- `.bec/rules.yaml` now carries an optional `schema_version` (absent means `1`,
+  so existing files keep working). `becwright init` stamps it, and the engine
+  refuses a file stamped newer than it understands — with a clear "upgrade
+  becwright" error — instead of risking a silent misparse. (The `.bec.yaml`
+  export bundle was already versioned via `becwright_bec`.)
 
 ## [0.4.0] — 2026-07-01
 

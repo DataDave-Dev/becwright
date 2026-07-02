@@ -537,9 +537,10 @@ at any time.
 **The path to 1.0.0** — we ship it once we're confident the contract above won't
 need a breaking change:
 
-- [ ] Freeze the `rules.yaml` schema — no pending format changes.
-- [ ] Version the `.bec.yaml` bundle format (a `schema_version` field) so future
-      formats can migrate instead of break on import.
+- [x] Version both on-disk formats so a newer file fails loudly instead of
+      misparsing — the `.bec.yaml` bundle (`becwright_bec`) and `.bec/rules.yaml`
+      (`schema_version`).
+- [ ] Freeze the `rules.yaml` field set — no pending schema changes.
 - [ ] Document and stabilize CLI exit codes and the `check --json` shape.
 - [ ] State a deprecation policy: one minor release of notice before any removal.
 - [ ] Validate on real repositories beyond this one.
