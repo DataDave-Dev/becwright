@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Declared **Beta** maturity (`Development Status :: 4 - Beta` classifier) and a
+  public **Stability & versioning** section in the README: what the `1.0.0`
+  contract covers (`rules.yaml` schema, `.bec.yaml` bundle format, check names,
+  CLI commands and exit codes, `check --json` shape, MCP signatures) and the
+  exit criteria to reach it.
+
 ## [0.4.0] — 2026-07-01
 
 ### Added
